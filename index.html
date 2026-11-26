@@ -259,6 +259,10 @@ textarea{width:100%;font:16px/1.7 var(--hand);color:var(--d);background:var(--l)
 .t-how{font-size:15px;margin:0 0 18px;max-width:34em}
 .t-btns{display:flex;flex-wrap:wrap;gap:10px}
 .t-ear{font-size:14px;margin:16px 0 0}
+.t-alt{margin:16px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:14px}
+.t-alt a,a.oplink{display:inline-flex;align-items:center;min-height:42px;padding:0 16px;border:2px dashed var(--l);color:var(--l);text-decoration:none;font-size:15px}
+.t-alt a:hover,.t-alt a:active,a.oplink:hover,a.oplink:active{background:var(--l);color:var(--d)}
+.t-alt span{opacity:.85}
 @media (prefers-reduced-motion:reduce){.fax,.letter,.logent p,#ntitle.go,#toast.go,#goal .gl,.al i{animation:none}#toast.go{opacity:1}#sub-more{animation:none}#flash.go{animation:none}}
 @media (min-width:700px){#sub-t{font-size:18px}}
 @media (max-width:429px){#h-sky,#h-tier,#snd,#logbtn{display:none}.pill{padding:2px 7px;gap:5px}.h-btns button{padding:0 8px}#h-clock,#h-mv,#h-tv{font-size:20px}.hs{padding-left:6px}}
@@ -314,6 +318,7 @@ body.titled #hud,body.titled #arrow{display:none}
     <p class="t-intro" id="t-intro"></p>
     <p class="t-how">拖曳畫面看看四周，點桌上的東西來做事。上方會提示下一步該做什麼。</p>
     <div class="t-btns"><button type="button" class="primary" id="t-new">開始值班</button><button type="button" id="t-cont" hidden>繼續值班</button><button type="button" id="t-memo">值班須知</button></div>
+    <p class="t-alt"><a id="t-cd" target="_blank" rel="noopener"></a><span id="t-cdtag"></span></p>
     <p class="t-ear">建議戴耳機。左耳是監聽回送，晚三秒；右耳留給電話。進度只存在這個瀏覽器裡。</p>
   </div>
 </div>
@@ -987,6 +992,12 @@ prev: {
 },
 
 dump: { q: "這通電話正在播出。三秒內按截音，剛才那段就不會送出去。", cut: "你按下截音。那三秒沒有送出去，左耳的監聽空了一格。" },
+
+caveduck: {
+url: "https://caveduck.io/zh-hant/share/characters/b783576a-b5f2-407a-9254-b47591d92cfb",
+label: "CaveDuck 對話版",
+tag: "一個人的深夜電臺，七個晚上，和一個只在電話裡存在的同事。"
+},
 
 intro: "你在第二放送值夜班，一個人顧總控台和播音室。測候所的夜間值日是值日3，你們每晚通電話，已經半年，從來沒有見過面。"
 
@@ -3805,6 +3816,7 @@ if (typeof document !== "undefined") {
       <div class="pals">${Object.entries(PALS).map(([k, [n, d, l]]) => `<button type="button" data-pal="${k}" aria-pressed="${k === pal}"><i style="background:linear-gradient(135deg,${d} 50%,${l} 50%)"></i>${n}</button>`).join("")}</div>
       <div class="row"><button type="button" id="op-snd" aria-pressed="${SFX.on()}">音效：${SFX.on() ? "開" : "關"}</button><button type="button" id="op-log">讀紀錄</button></div>
       <div class="row"><button type="button" id="op-auto" aria-pressed="${auto}">文字自動前進：${auto ? "開" : "關"}</button><button type="button" id="op-memo">值班須知</button><button type="button" id="op-new">從第一夜重新開始</button></div>
+      <div class="row"><a class="oplink" href="${esc(T.caveduck.url)}" target="_blank" rel="noopener">${esc(T.caveduck.label)} ↗</a></div>
       <div class="row"><button type="button" class="primary" id="op-c">收起</button></div>`);
     sheet().querySelector(".sheetcard").onclick = e => {
       const b = e.target.closest("button");
@@ -3990,6 +4002,7 @@ if (typeof document !== "undefined") {
 }
 
 document.getElementById("t-intro").textContent = TEXT.intro;
+(() => { const a = document.getElementById("t-cd"), C = TEXT.caveduck; a.href = C.url; a.textContent = C.label + " ↗"; document.getElementById("t-cdtag").textContent = C.tag; })();
 </script>
 </body>
 </html>
